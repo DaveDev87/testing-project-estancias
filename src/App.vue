@@ -1,16 +1,18 @@
 <template>
   <main id="app">
-    <pre>
-      {{ users }}
-    </pre>
+    <UserComponent v-for="user in users" :user="user" :key="user.id"/>
   </main>
 </template>
 
 <script>
 import axios from "axios";
+import UserComponent from "@/components/UserComponent.vue"
 
 export default {
   name: "App",
+  components: {
+    UserComponent
+  },
   data() {
     return {
       users: [],
@@ -18,29 +20,30 @@ export default {
   },
   methods: {
     /*
-    * Promesas usando .then 
-    **/
-    listUsers() {
-      axios
-        .get("https://jsonplaceholder.typicode.com/users")
-        .then((res) => (this.users = res.data))
-        .catch((err) => console.error(err));
-    },
-    /*
-    * Promesas usando async/await
-    **/
-    // async listUsers() {
-    //   try {
-    //     const res = await axios.get(
-    //       "https://jsonplaceholder.typicode.com/users"
-    //     );
-    //     this.users = res.data;
-    //   } catch (err) {
-    //     console.error(err);
-    //   }
+     * Promesas usando .then
+     **/
+    // listUsers() {
+    //   axios
+    //     .get("https://jsonplaceholder.typicode.com/users")
+    //     .then((res) => (this.users = res.data))
+    //     .catch((err) => console.error(err));
     // },
+    /*
+     * Promesas usando async/await
+     **/
+    async listUsers() {
+      try {
+        const res = await axios.get(
+          "https://jsonplaceholder.typicode.com/users"
+        );
+        this.users = res.data;
+      } catch (err) {
+        console.error(err);
+      }
+    },
   },
   created() {
+    // this.funcionDePrueba()
     this.listUsers();
   },
 };
@@ -78,12 +81,5 @@ export default {
 
 .no_puede_pasar {
   color: red;
-}
-
-.card {
-  border: 1px solid black;
-  margin: 5px;
-  padding: 8px;
-  width: 33%;
 }
 </style>
