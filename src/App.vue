@@ -1,90 +1,47 @@
 <template>
   <main id="app">
-    <section class="header">
-      <h1>{{ title }}</h1>
-      <p>{{ subtitle }}</p>
-    </section>
-    <section>
-      <div class="card">
-        <div>Nombre: {{ user.name }}</div>
-        <div>Edad: {{ user.age }}</div>
-        <span class="puede_pasar" v-if="user.age >= 18">Pasele!</span>
-        <span class="no_puede_pasar" v-else>No pasa</span>
-      </div>
-    </section>
-    <!-- <section class="task__container">
-      <div v-for="(task, index) in tasks" :key="index">
-        <div v-if="task.completed === false" class="card">
-          <div class="task__date">{{ task.date }}</div>
-          <h1>{{ task.title }}</h1>
-          <span>{{ task.author }}</span>
-          <p>{{ task.description }}</p>
-        </div>
-      </div>
-    </section> -->
+    <pre>
+      {{ users }}
+    </pre>
   </main>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "App",
-  // mounted() {
-  //   const body = {
-  //     email: "alexruedarivas@gmail.com",
-  //     user: "David A. Rueda",
-  //     sendEmailToUser: true,
-  //   };
-
-  //   fetch(
-  //     "https://4519cjvuci.execute-api.us-east-1.amazonaws.com/prod/convocatoria-evaluador/emailalert",
-  //     {
-  //       method: "POST",
-  //       body: JSON.stringify(body),
-  //       headers: new Headers({
-  //         "Content-Type": "application/json",
-  //         "Access-Control-Allow-Origin:": "*"
-  //       }),
-  //     }
-  //   )
-  //     .then((res) => res.json())
-  //     .then((res) => console.log(res))
-  //     .catch((err) => console.log("unu", err));
-  // },
   data() {
     return {
-      title: "Hola amigos",
-      subtitle: "Lista de cosas para hacer:",
-
-      user: {
-        name: "Pepe",
-        age: 20,
-        active: true,
-      },
-
-      // tasks: [
-      //   {
-      //     title: "Lavar la ropa",
-      //     description: "Para no oler mal",
-      //     author: "David",
-      //     date: "2022-05-1",
-      //     completed: true,
-      //   },
-      //   {
-      //     title: "lavar los platos",
-      //     description: "Para no enfermarse",
-      //     date: "2022-05-1",
-      //     author: "Sherlyn",
-      //     completed: true,
-      //   },
-      //   {
-      //     title: "Hacer la tarea",
-      //     description: "Porque si no me reprueba Joel",
-      //     date: "2022-05-1",
-      //     author: "Cris",
-      //     completed: false,
-      //   },
-      // ],
+      users: [],
     };
+  },
+  methods: {
+    /*
+    * Promesas usando .then 
+    **/
+    listUsers() {
+      axios
+        .get("https://jsonplaceholder.typicode.com/users")
+        .then((res) => (this.users = res.data))
+        .catch((err) => console.error(err));
+    },
+    /*
+    * Promesas usando async/await
+    **/
+    // async listUsers() {
+    //   try {
+    //     const res = await axios.get(
+    //       "https://jsonplaceholder.typicode.com/users"
+    //     );
+    //     this.users = res.data;
+    //   } catch (err) {
+    //     console.error(err);
+    //   }
+    // },
+  },
+  mounted() {
+    this.listUsers();
   },
 };
 </script>
