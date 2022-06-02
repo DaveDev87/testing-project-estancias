@@ -1,7 +1,12 @@
 <template>
   <main id="app">
-    <div class="m-4 text-red-500" v-for="(item, i) in countries" :key="i">
+    <div class="card" v-for="(item, i) in countries" :key="i">
+      <h1>Country</h1>
       <div class="">{{item.name}}</div>
+      <div class="">{{item.currency}}</div>
+      <div v-for="(language, i) in item.languages" :key="i">
+        <span>{{language.code}}</span>
+      </div>
     </div>
   </main>
 </template>
@@ -20,6 +25,7 @@ export default {
           countries {
             name
             capital
+            currency
             continent {
               code
             }
@@ -81,6 +87,17 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px; */
+}
+
+.card {
+  margin: 25px;
+  padding: 25px;
+  background-color: rgb(243, 212, 250);
+  width: 33%;
+  border-radius: 15px;
+  box-shadow: -3px 21px 27px -5px rgba(150, 150, 150, 0.75);
+  -webkit-box-shadow: -3px 21px 27px -5px rgba(150, 150, 150, 0.75);
+  -moz-box-shadow: -3px 21px 27px -5px rgba(150, 150, 150, 0.75);
 }
 
 .header {
