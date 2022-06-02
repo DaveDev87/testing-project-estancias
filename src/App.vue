@@ -1,17 +1,38 @@
 <template>
   <main id="app">
-    <UserComponent v-for="user in users" :user="user" :key="user.id"/>
+    <div class="m-4 text-red-500" v-for="(item, i) in countries" :key="i">
+      <div class="">{{item.name}}</div>
+    </div>
   </main>
 </template>
 
 <script>
 import axios from "axios";
-import UserComponent from "@/components/UserComponent.vue"
+import UserComponent from "@/components/UserComponent.vue";
+import gql from "graphql-tag";
 
 export default {
   name: "App",
+  apollo: {
+    countries: {
+      query: gql`
+        {
+          countries {
+            name
+            capital
+            continent {
+              code
+            }
+            languages {
+              code
+            }
+          }
+        }
+      `,
+    },
+  },
   components: {
-    UserComponent
+    UserComponent,
   },
   data() {
     return {
